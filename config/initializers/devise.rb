@@ -266,6 +266,8 @@ Devise.setup do |config|
     scope: "userinfo.email"
   }
 
+  ### ! MEG NOTE ###
+  # I deleted the /config/initializers/omniauth.rb file as that will conflict with using OAuth thru Devise. See Wikidoc: https://github.com/plataformatec/devise/wiki/OmniAuth:-Overview
 
 
   # ==> Warden configuration

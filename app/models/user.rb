@@ -31,6 +31,9 @@ class User < ApplicationRecord
   #   end
   # end
 
+  ### ! MEG NOTE ###
+  # I recommend using the code from from the Google OAuth docs below. It's much cleaner and smooth like Skippy. :) See docs: https://github.com/zquestz/omniauth-google-oauth2#devise
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
       # binding.pry

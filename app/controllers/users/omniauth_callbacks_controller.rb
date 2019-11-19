@@ -19,6 +19,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   #   end
   # end
 
+  ### ! MEG NOTE ###
+  # Your method below looks pretty good. The only thing I'd try to clean up is the code in the 'truthy' part of the if statement. Take a look at the code from from the Google OAuth docs (found here: https://github.com/zquestz/omniauth-google-oauth2#devise).
+  # I also commented out that redirect at the end as it isn't needed. The omniauth either works or it doesn't and should respond accordingly inside the if statement.
+
   def google_oauth2
     @user = User.from_omniauth(request.env["omniauth.auth"])
 # binding.pry
@@ -26,9 +30,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in @user, :event => :authentication
       set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
     else
-      session["devise.google_data"] = request.env["omniauth.auth"]
+      session["devise.google_data"] = request.env["omniauth.auth"].except(:extra) # Removing extra info as it can overflow some session stores
+      # Add redirect to new user registration with an error message that they couldn't sign in via Google OAuth because they don't have an account yet
     end
-    redirect_to @user
+    # redirect_to @user
   end
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
